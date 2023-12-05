@@ -12,22 +12,29 @@ TEST(Functions_test, Arithmetic)
 {
     FuncFactory F;
 
-    auto A1 = F.Create("polynomial", {0, 2, 1});
-    auto A2 = F.Create("polynomial", {0, 1, 2});
-    auto A3 = *A1 + *A2;
-    ASSERT_EQ(A3(1), 6);
-    ASSERT_EQ(A3(2), 18);
+    auto A1 = F.Create("polynomial", {1, 2, 1});
+    auto A2 = F.Create("polynomial", {1, 1, 2});
+
     ASSERT_EQ((*A1 - *A2)(1), 0);
     ASSERT_EQ((*A1 - *A2)(2), -2);
-    ASSERT_EQ((*A1 * *A2)(1), 9);
-    ASSERT_EQ((*A1 * *A2)(2), 80);
+    ASSERT_EQ((*A1 * *A2)(1), 16);
+
+    // std::cout << (*A1).ToString() << std::endl;
+    // std::cout << (*A1)(2) << std::endl;
+    // std::cout << (*A2)(2) << std::endl;
+
+    ASSERT_EQ((*A1 * *A2)(2), 99);
+
+    auto A3 = *A1 + *A2;
+    ASSERT_EQ(A3(1), 8);
+    ASSERT_EQ(A3(2), 20);
 
     auto A4 = F.Create("exp", 0);
-    ASSERT_EQ((A3 / *A4)(1), 6);
-    ASSERT_EQ((A3 / *A4)(2), 18);
+    ASSERT_EQ((A3 / *A4)(1), 8);
+    ASSERT_EQ((A3 / *A4)(2), 20);
 
     auto A5 = A3 / *A4;
-    auto A6 = F.Create("const", 18);
+    auto A6 = F.Create("const", 20);
     ASSERT_EQ((A5 / *A6)(2), 1);
 }
 

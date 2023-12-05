@@ -9,6 +9,7 @@ Compose::Compose(BaseFunction &lop_, BaseFunction &rop_, std::string type_) : lo
 
 double Compose::Deriative(double x)
 {
+    // производная сложной функции
     if (type == "+")
     {
         return (*lop).Deriative(x) + (*rop).Deriative(x);
@@ -84,10 +85,10 @@ std::shared_ptr<BaseFunction> Compose::Copy()
     return std::make_shared<Compose>(*lop, *rop, type);
 }
 
-Exponential::Exponential(std::vector<double> coef_) : coef(coef_[0])
+Exponential::Exponential(std::vector<double> _coef) : coef(_coef[0])
 {
-    if (!coef_.empty())
-        coef = coef_[0];
+    if (!_coef.empty())
+        coef = _coef[0];
     else
         coef = 0;
 }
@@ -120,15 +121,15 @@ Polynomial::Polynomial()
     PolyDict[0] = 0;
 }
 
-Polynomial::Polynomial(double coef_)
+Polynomial::Polynomial(double _coef)
 {
-    PolyDict[0] = coef_;
+    PolyDict[0] = _coef;
 }
 
-Polynomial::Polynomial(std::vector<double> coef_)
+Polynomial::Polynomial(std::vector<double> _coef)
 {
-    for (int idx = 0; idx < coef_.size(); idx++)
-        PolyDict[idx] = coef_[idx];
+    for (int idx = 0; idx < _coef.size(); idx++)
+        PolyDict[idx] = _coef[idx];
 }
 
 double Polynomial::Deriative(double x)
@@ -183,14 +184,14 @@ Identical::Identical()
     PolyDict[1] = 0;
 }
 
-Identical::Identical(double coef_)
+Identical::Identical(double _coef)
 {
-    PolyDict[1] = coef_;
+    PolyDict[1] = _coef;
 }
 
-Identical::Identical(std::vector<double> coef_)
+Identical::Identical(std::vector<double> _coef)
 {
-    PolyDict[1] = coef_[0];
+    PolyDict[1] = _coef[0];
 }
 
 Constant::Constant()
@@ -198,15 +199,15 @@ Constant::Constant()
     PolyDict[0] = 0;
 }
 
-Constant::Constant(double coef_)
+Constant::Constant(double _coef)
 {
-    PolyDict[0] = coef_;
+    PolyDict[0] = _coef;
 }
 
-Constant::Constant(std::vector<double> coef_)
+Constant::Constant(std::vector<double> _coef)
 {
-    if (!coef_.empty())
-        PolyDict[0] = coef_[0];
+    if (!_coef.empty())
+        PolyDict[0] = _coef[0];
     else
         PolyDict[0] = 0;
 }
@@ -216,15 +217,15 @@ Power::Power()
     PolyDict[0] = 0;
 }
 
-Power::Power(double coef_)
+Power::Power(double _coef)
 {
-    PolyDict[coef_] = 1;
+    PolyDict[_coef] = 1;
 }
 
-Power::Power(std::vector<double> coef_)
+Power::Power(std::vector<double> _coef)
 {
-    for (int idx = 0; idx < coef_.size(); idx++)
-        PolyDict[coef_[idx]] = 1;
+    for (int idx = 0; idx < _coef.size(); idx++)
+        PolyDict[_coef[idx]] = 1;
 }
 
 #endif // FUNCTION_CPP
