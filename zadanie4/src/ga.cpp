@@ -14,7 +14,7 @@
 template <size_t Ngens>
 class GeneticAlgo {
 public:
-    GeneticAlgo(BestSelection<Npop> &_selector, Mutator<Ngens> &_mutator,
+    GeneticAlgo(Selection<Npop> &_selector, Mutation<Ngens> &_mutator,
                 Crossing<Ngens> &_crosser, SurvaivalFunc<Ngens> &_surv_func) : selector(_selector.clone()), mutator(_mutator.clone()),
                                                                                crosser(_crosser.clone()), surv_func(_surv_func.clone()),
                                                                                best_res(Ngens){};
@@ -48,8 +48,8 @@ public:
     }
 
 private:
-    std::shared_ptr<BestSelection<Npop>> selector;
-    std::shared_ptr<Mutator<Ngens>> mutator;
+    std::shared_ptr<Selection<Npop>> selector;
+    std::shared_ptr<Mutation<Ngens>> mutator;
     std::shared_ptr<Crossing<Ngens>> crosser;
     std::shared_ptr<SurvaivalFunc<Ngens>> surv_func;
     std::array<std::bitset<Ngens>, Npop> population;

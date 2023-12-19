@@ -9,15 +9,23 @@
 #include <random>
 #include "lims.hpp"
 
+template<size_t popSize>
+class Selection {
+public:
+    virtual ~Selection() {};
+    virtual std::unique_ptr<Selection<popSize>> clone() const = 0;
+    virtual std::array<int, popSize> select(const std::array<int, popSize>& surv_func_vals) = 0;
+};
+
 /*ln best selection*/
 template <size_t popSize>
-class BestSelection {
+class BestSelection : public Selection<popSize> {
 public:
-    virtual std::unique_ptr<BestSelection<popSize>> clone() const {
+    virtual std::unique_ptr<Selection<popSize>> clone() const override {
         return std::make_unique<BestSelection<popSize>>(*this);
     }
 
-    virtual std::array<int, popSize> select(const std::array<int, popSize>& surv_func_vals) {
+    virtual std::array<int, popSize> select(const std::array<int, popSize>& surv_func_vals) override {
         std::array<int, popSize> res;
 
         std::random_device rd;     // Only used once to initialise (seed) engine
