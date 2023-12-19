@@ -56,13 +56,13 @@ private:
     std::array<std::bitset<Ngens>, Npop> population;
 
     std::bitset<Ngens> best_individ;
-    int best_res;
+    int best_res = 0;
 
     void init_population() {
         std::random_device dev;
         std::mt19937 rng(dev());
         std::uniform_int_distribution<> dist(0, 1); // distribution in discrete range [0, 1]
-        
+
         std::bitset<Ngens> tmp_individ;
 
         for (unsigned i = 0; i < Npop; i++) {
@@ -100,13 +100,16 @@ private:
         std::uniform_real_distribution<> cross_prob_dist(0, 1);
 
         int i, j, k = 0;
-        decltype(population) new_population;
+        std::array<std::bitset<Ngens>, Npop> new_population;
         double cross_prob = crosser->get_crossing_prob();
         while (k < Npop - 1) {
-            do {
+            i = ind_dist(rng);
+            j = ind_dist(rng);
+
+            while (selected_individs[i] == selected_individs[j]) {
                 i = ind_dist(rng);
                 j = ind_dist(rng);
-            } while (selected_individs[i] == selected_individs[j]);
+            }
 
             if (cross_prob_dist(rng) < cross_prob) {
                 auto descedants = crosser->cross(selected_individs[i], selected_individs[j]);
