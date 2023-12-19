@@ -17,7 +17,7 @@ public:
 template<size_t N>
 class Crosser : public Crossing<N>{
 public:
-    Crosser(double _cross_prob = 0.8): point1(N / 3), point2(N * 2 / 3), cross_prob(_cross_prob){};
+    Crosser(double _prob = 0.8): point1(N / 3), point2(N * 2 / 3), prob(_prob){};
     Crosser(const Crosser& other) = default;
     ~Crosser() = default;
 
@@ -37,12 +37,12 @@ public:
     }
 
     double get_crossing_prob() const override{
-        return cross_prob;
+        return prob;
     }
 private:
     unsigned int point1;
     unsigned int point2;
-    double cross_prob;
+    double prob;
 };
 
 

@@ -25,9 +25,8 @@ public:
     }
 
     virtual int get_criterion_val(const std::bitset<N>& individ) override{
-        int res;
         auto target_desc = engine.get_great_descedant(individ, iterN);
-        res = target_desc.count();
+        int res = target_desc.count();
         if (target_desc == engine.get_descedant(target_desc)){
             res += PENALTY;
         }

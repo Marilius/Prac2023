@@ -12,19 +12,20 @@
 #include "crossing.cpp"
 
 template <size_t Ngens>
-class GeneticAlgo {
+class GA {
 public:
-    GeneticAlgo(Selection<Npop> &_selector, Mutation<Ngens> &_mutator,
+    GA(Selection<Npop> &_selector, Mutation<Ngens> &_mutator,
                 Crossing<Ngens> &_crosser, SurvaivalFunc<Ngens> &_surv_func) : selector(_selector.clone()), mutator(_mutator.clone()),
                                                                                crosser(_crosser.clone()), surv_func(_surv_func.clone()),
                                                                                best_res(Ngens){};
 
     void run_algorithm() {
-        int stable_iter = 0;
         init_population();
-        best_individ = population[0];
+    
         std::array<int, Npop> survaival_vals;
+        best_individ = population[0];
 
+        int stable_iter = 0;
         while (stable_iter < MAX_NON_BEST_ITER) {
             stable_iter++;
             survaival_vals = std::move(population_survaival_func());
@@ -56,11 +57,6 @@ private:
 
     std::bitset<Ngens> best_individ;
     int best_res;
-
-    bool is_change(long long delta) {
-        double chance = static_cast<double>(rand() % 10000) / 10000.0;
-        return chance < delta;
-    }
 
     void init_population() {
         std::random_device dev;
@@ -98,13 +94,13 @@ private:
     population_crossing(const std::array<std::bitset<Ngens>, Npop> &selected_individs) {
         std::random_device dev;
         std::mt19937 rng(dev());
-        std::uniform_int_distribution<> ind_dist(0, Npop - 1); // ?
+        std::uniform_int_distribution<> ind_dist(0, Npop - 1);
         std::uniform_real_distribution<> cross_prob_dist(0, 1);
 
         int i, j, k = 0;
         decltype(population) new_population;
         double cross_prob = crosser->get_crossing_prob();
-        while (k < Npop - 1) { // as step is 2
+        while (k < Npop - 1) {
             do {
                 i = ind_dist(rng);
                 j = ind_dist(rng);
@@ -125,7 +121,7 @@ private:
         }
     }
 
-    // true if best changed, false else
+    // new best
     inline bool is_new_best(const std::array<int, Npop> &surv_func_vals) {
         auto argmin_iter = std::min_element(surv_func_vals.begin(), surv_func_vals.end());
         int argmin = argmin_iter - surv_func_vals.begin();

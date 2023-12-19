@@ -14,23 +14,23 @@ public:
 };
 
 template<size_t N>
-class Mutator: public Mutation<N>{
+class Mutator: public Mutation<N> {
 public:
-    Mutator(double _prob): prob(_prob){};
+    Mutator(double _prob): prob(_prob) {};
 
-    std::unique_ptr<Mutation<N>> clone() const override{
+    std::unique_ptr<Mutation<N>> clone() const override {
         return std::make_unique<Mutator>(*this);
     }
 
-    std::bitset<N> mutate(const std::bitset<N>& individ) override{
+    std::bitset<N> mutate(const std::bitset<N>& individ) override {
         std::bitset<N> res(individ);
 
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> mutation_prob(0, 1);
 
-        for (unsigned i = 0; i <= res.size(); i++){
-            if (mutation_prob(gen) < prob){
+        for (unsigned i = 0; i <= res.size(); i++) {
+            if (mutation_prob(gen) < prob) {
                 res[i] = ~res[i]; 
             }
         }

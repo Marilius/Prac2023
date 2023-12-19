@@ -25,8 +25,9 @@ int main() {
         GoLSurvaivalFunc<WIDTH*HEIGHT> surv_func;
         Crosser<WIDTH * HEIGHT> cros;
         Mutator<WIDTH * HEIGHT> mut(mut_prob);
+
         for (int j = 0; j < ITERS_PER_SERIES; j++) {
-            GeneticAlgo<WIDTH * HEIGHT> gen_algo(sel, mut, cros, surv_func);
+            GA<WIDTH * HEIGHT> gen_algo(sel, mut, cros, surv_func);
             auto t_start = std::chrono::high_resolution_clock::now();
             gen_algo.run_algorithm();
             auto t_end = std::chrono::high_resolution_clock::now();
@@ -34,16 +35,13 @@ int main() {
 
             auto best_individ = gen_algo.get_best_individ();
             auto best_criterion = gen_algo.get_best_criterion();
-            std::string filename1 = std::string("./research/series_") + std::to_string(i) +
-                                    "_run_" + std::to_string(j) + "_sol.txt";
-            std::string filename2 = std::string("./research/series_") + std::to_string(i) +
-                                    "_run_" + std::to_string(j) + "_sol_after100.txt";
+            std::string filename1 = std::string("./research/series_") + std::to_string(i) + "_run_" + std::to_string(j) + "_sol.txt";
+            std::string filename2 = std::string("./research/series_") + std::to_string(i) + "_run_" + std::to_string(j) + "_sol_after100.txt";
             GoLEngine::individ_to_file(best_individ, filename1.c_str());
             auto best_after100 = game.get_great_descedant(best_individ, 100);
             GoLEngine::individ_to_file(best_after100, filename2.c_str());
 
-            file_data << i << "," << j << "," << mut_prob << "," << t_duration / 1e9 << ","
-                      << best_criterion << "\n";
+            file_data << i << "," << j << "," << mut_prob << "," << t_duration / 1e9 << "," << best_criterion << "\n";
             file_data.flush();
         }
     }
