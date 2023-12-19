@@ -1,0 +1,7 @@
+#include "src/crossing.cpp"
+#include "src/mutation.cpp"
+#include "src/lims.hpp"
+#include "src/life_engine.hpp"
+#include "src/survival.cpp"
+#include "src/selection.cpp"
+#include "src/ga.cpp"
