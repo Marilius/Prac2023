@@ -33,7 +33,7 @@ public:
         return res;
     }
 private:
-    GoLEngine engine;
+    LifeGame engine;
 };
 
 #endif  // _survival

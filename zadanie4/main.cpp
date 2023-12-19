@@ -6,14 +6,15 @@
 #include "main.hpp"
 
 int main(){
-    GoLEngine game;
+    LifeGame game;
     Mutator<WIDTH * HEIGHT> mut(1. / (WIDTH * HEIGHT));
-    BestSelection<Npop> sel;
+    TournamentSelection<Npop> sel;
     GoLSurvaivalFunc<WIDTH*HEIGHT> surv_func;
     Crosser<WIDTH * HEIGHT> cros;
     GA<WIDTH * HEIGHT> gen_algo(sel, mut, cros, surv_func);
 
     gen_algo.run_algorithm();
+    
     auto best_individ = gen_algo.get_best_individ();
     auto best_criterion = gen_algo.get_best_criterion();
 

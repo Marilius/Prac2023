@@ -7,11 +7,11 @@
 #include <ncurses.h>
 #include "lims.hpp"
 
-class GoLEngine {
+class LifeGame {
 public:
-    GoLEngine() : width(WIDTH), height(HEIGHT) {};
-    GoLEngine(const GoLEngine &other) = default;
-    ~GoLEngine() = default;
+    LifeGame() : width(WIDTH), height(HEIGHT) {};
+    LifeGame(const LifeGame &other) = default;
+    ~LifeGame() = default;
 
     std::bitset<WIDTH * HEIGHT>
     get_descedant(const std::bitset<WIDTH * HEIGHT> &individ) {
@@ -65,6 +65,7 @@ public:
         getch();
         clear();
     }
+
     static void individ_to_file(const std::bitset<WIDTH * HEIGHT> &individ, const char *filename) {
         std::ofstream file_data;
         file_data.open(filename);

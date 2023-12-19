@@ -17,12 +17,11 @@ public:
     virtual std::array<int, popSize> select(const std::array<int, popSize>& surv_func_vals) = 0;
 };
 
-/*ln best selection*/
 template <size_t popSize>
-class BestSelection : public Selection<popSize> {
+class TournamentSelection : public Selection<popSize> {
 public:
     virtual std::unique_ptr<Selection<popSize>> clone() const override {
-        return std::make_unique<BestSelection<popSize>>(*this);
+        return std::make_unique<TournamentSelection<popSize>>(*this);
     }
 
     virtual std::array<int, popSize> select(const std::array<int, popSize>& surv_func_vals) override {

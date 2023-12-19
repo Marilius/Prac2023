@@ -62,7 +62,9 @@ private:
         std::random_device dev;
         std::mt19937 rng(dev());
         std::uniform_int_distribution<> dist(0, 1); // distribution in discrete range [0, 1]
+        
         std::bitset<Ngens> tmp_individ;
+
         for (unsigned i = 0; i < Npop; i++) {
             for (unsigned j = 0; j < Ngens; j++) {
                 tmp_individ[j] = dist(rng);
@@ -105,6 +107,7 @@ private:
                 i = ind_dist(rng);
                 j = ind_dist(rng);
             } while (selected_individs[i] == selected_individs[j]);
+
             if (cross_prob_dist(rng) < cross_prob) {
                 auto descedants = crosser->cross(selected_individs[i], selected_individs[j]);
                 new_population[k] = std::move(descedants.first);
@@ -125,11 +128,13 @@ private:
     inline bool is_new_best(const std::array<int, Npop> &surv_func_vals) {
         auto argmin_iter = std::min_element(surv_func_vals.begin(), surv_func_vals.end());
         int argmin = argmin_iter - surv_func_vals.begin();
+
         if (*argmin_iter < best_res) {
             best_individ = population[argmin];
             best_res = surv_func_vals[argmin];
             return true;
         }
+
         return false;
     }
 };
