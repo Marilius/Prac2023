@@ -39,6 +39,7 @@ public:
     double get_crossing_prob() const override{
         return prob;
     }
+
 private:
     unsigned int point1;
     unsigned int point2;
