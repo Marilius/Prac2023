@@ -28,7 +28,7 @@ public:
         auto target_desc = engine.get_great_descedant(individ, iterN);
         int res = target_desc.count();
         if (target_desc == engine.get_descedant(target_desc)){
-            res += PENALTY;
+            res -= PENALTY;
         }
         return res;
     }
