@@ -11,22 +11,28 @@
 #include "survival.cpp"
 #include "crossing.cpp"
 
+#include <iostream>
+
 template <size_t Ngens>
 class GA {
 public:
     GA(Selection<Npop> &_selector, Mutation<Ngens> &_mutator,
                 Crossing<Ngens> &_crosser, SurvaivalFunc<Ngens> &_surv_func) : selector(_selector.clone()), mutator(_mutator.clone()),
                                                                                crosser(_crosser.clone()), surv_func(_surv_func.clone()),
-                                                                               best_res(Ngens){};
+                                                                               best_res(0){};
 
     void run_algorithm() {
         init_population();
+        best_res = 0;
+
     
         std::array<int, Npop> survaival_vals;
         best_individ = population[0];
 
         int stable_iter = 0;
         while (stable_iter < MAX_NON_BEST_ITER) {
+            // std::cout << get_best_criterion() << std::endl;
+
             stable_iter++;
             survaival_vals = std::move(population_survaival_func());
 
@@ -129,12 +135,15 @@ private:
 
     // new best
     inline bool is_new_best(const std::array<int, Npop> &surv_func_vals) {
-        auto argmin_iter = std::min_element(surv_func_vals.begin(), surv_func_vals.end());
+        auto argmin_iter = std::max_element(surv_func_vals.begin(), surv_func_vals.end());
         int argmin = argmin_iter - surv_func_vals.begin();
 
-        if (*argmin_iter < best_res) {
+        // std::cout <<  << std::endl;
+
+
+        if (*argmin_iter > best_res) {
             best_individ = population[argmin];
-            best_res = surv_func_vals[argmin];
+            best_res = *argmin_iter;
             return true;
         }
 

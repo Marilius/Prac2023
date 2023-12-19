@@ -1,6 +1,7 @@
 #ifndef _survival
 #define _survival
 
+#include <iostream>
 #include <memory>
 #include <bitset>
 #include "life_engine.hpp"
@@ -27,9 +28,15 @@ public:
     virtual int get_criterion_val(const std::bitset<N>& individ) override{
         auto target_desc = engine.get_great_descedant(individ, iterN);
         int res = target_desc.count();
+
+        
+
         if (target_desc == engine.get_descedant(target_desc)){
             res -= PENALTY;
         }
+
+        // std::cout << res << std::endl;
+
         return res;
     }
 private:
